@@ -8,8 +8,6 @@ on:
         required: true
       AWS_REGION:
         required: true
-      PF_TOKEN:
-        required: true
 jobs:
   terraform:
     runs-on: ubuntu-latest
