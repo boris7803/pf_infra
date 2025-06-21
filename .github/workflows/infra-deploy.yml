@@ -11,6 +11,9 @@ on:
         required: true
       PF_TOKEN:
         required: true
+      PAT_REUSABLE_WORKFLOW:
+        required: false
+      
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -27,9 +30,6 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-
-      - name: List repo files
-        run: ls -la
 
       - name: Terraform Init
         run: terraform init
