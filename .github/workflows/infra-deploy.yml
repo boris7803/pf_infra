@@ -14,7 +14,7 @@ on:
       PAT_REUSABLE_WORKFLOW:
         required: false
     inputs:
-      CLUSTER_NAME:
+      EKS_CLUSTER_NAME:
         required: true
         type: string
 
