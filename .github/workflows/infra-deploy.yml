@@ -11,17 +11,18 @@ on:
         required: true
       PF_TOKEN:
         required: true
-
+      PAT_REUSABLE_WORKFLOW:
+        required: false
+      
 jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout pf_infra repo
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           repository: boris7803/pf_infra
           token: ${{ secrets.PF_TOKEN }}
-          ref: main
           path: pf_infra
 
       - name: Configure AWS credentials
@@ -35,16 +36,16 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        working-directory: pf_infra
         run: terraform init
+        working-directory: pf_infra
 
       - name: Terraform Plan
-        working-directory: pf_infra
         run: terraform plan
+        working-directory: pf_infra
 
       - name: Terraform Apply
-        working-directory: pf_infra
         run: terraform apply -auto-approve
+        working-directory: pf_infra
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
