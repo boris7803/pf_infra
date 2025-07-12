@@ -13,9 +13,10 @@ on:
         required: true
       PAT_REUSABLE_WORKFLOW:
         required: false
-      EKS_CLUSTER_NAME:
+    inputs:
+      CLUSTER_NAME:
         required: true
-
+        type: string
 jobs:
   terraform:
     runs-on: ubuntu-latest
