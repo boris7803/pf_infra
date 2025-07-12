@@ -83,3 +83,13 @@ module "ebs_csi_storageclass" {
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   token                  = data.aws_eks_cluster_auth.this.token
 }
+
+terraform {
+  backend "s3" {
+    bucket         = "tfstate-pfproject"
+    key            = "terraform.tfstate"
+    region         = "ap-south-1"
+    encrypt        = true
+  }
+}
+
