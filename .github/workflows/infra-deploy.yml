@@ -13,10 +13,8 @@ on:
         required: true
       PAT_REUSABLE_WORKFLOW:
         required: false
-    inputs:
       EKS_CLUSTER_NAME:
         required: true
-        type: string
 
 jobs:
   terraform:
