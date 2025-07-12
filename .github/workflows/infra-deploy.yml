@@ -44,6 +44,7 @@ jobs:
         run: terraform init
         working-directory: pf_infra
 
-      - name: Import Existing KMS Alias (if it exists)
+      - name: Terraform Import & Apply
         run: |
-          terraform import mod
+          terraform import module.eks.module.kms.aws_kms_alias.this["cluster"] \
+            arn:aws:kms:${{ secrets.AWS_REGION }}:228749873_
