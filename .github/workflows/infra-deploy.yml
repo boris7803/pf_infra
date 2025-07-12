@@ -44,15 +44,23 @@ jobs:
         run: terraform init
         working-directory: pf_infra
 
+
       - name: Terraform Import & Apply
         run: |
+          echo "Importing KMS alias if not already in state..."
+          terraform state list | grep 'module.eks.module.kms.aws_kms_alias.this\["cluster"\]' || \
           terraform import module.eks.module.kms.aws_kms_alias.this["cluster"] \
-            arn:aws:kms:${{ secrets.AWS_REGION }}:228749873271:alias/eks/${{ inputs.CLUSTER_NAME }} || true
+            arn:aws:kms:${{ secrets.AWS_REGION }}:228749873271:alias/eks/${{ inputs.CLUSTER_NAME }}
 
+          echo "Importing CloudWatch log group if not already in state..."
+          terraform state list | grep 'module.eks.aws_cloudwatch_log_group.this\[0\]' || \
           terraform import module.eks.aws_cloudwatch_log_group.this[0] \
-            /aws/eks/${{ inputs.CLUSTER_NAME }}/cluster || true
+            /aws/eks/${{ inputs.CLUSTER_NAME }}/cluster
 
+          echo "Planning..."
           terraform plan
+
+          echo "Applying..."
           terraform apply -auto-approve
         working-directory: pf_infra
         env:
