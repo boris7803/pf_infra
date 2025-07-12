@@ -48,19 +48,19 @@ jobs:
         run: |
           echo "⏳ Checking & importing missing Terraform resources..."
 
-          echo "🔐 Checking KMS alias..."
-          terraform state list | grep 'module.eks.module.kms.aws_kms_alias.this\["cluster"\]' || \
-          terraform import module.eks.module.kms.aws_kms_alias.this["cluster"] \
+          echo "🔐 KMS alias"
+          terraform state show 'module.eks.module.kms.aws_kms_alias.this["cluster"]' || \
+          terraform import 'module.eks.module.kms.aws_kms_alias.this["cluster"]' \
             arn:aws:kms:${{ secrets.AWS_REGION }}:228749873271:alias/eks/${{ inputs.CLUSTER_NAME }}
 
-          echo "📊 Checking CloudWatch Log Group..."
-          terraform state list | grep 'module.eks.aws_cloudwatch_log_group.this\[0\]' || \
-          terraform import module.eks.aws_cloudwatch_log_group.this[0] \
+          echo "📊 CloudWatch Log Group"
+          terraform state show 'module.eks.aws_cloudwatch_log_group.this[0]' || \
+          terraform import 'module.eks.aws_cloudwatch_log_group.this[0]' \
             /aws/eks/${{ inputs.CLUSTER_NAME }}/cluster
 
-          echo "🛡️ Checking IAM Role..."
-          terraform state list | grep 'module.ebs_csi_irsa_role.aws_iam_role.this\[0\]' || \
-          terraform import module.ebs_csi_irsa_role.aws_iam_role.this[0] \
+          echo "🛡️ IAM Role"
+          terraform state show 'module.ebs_csi_irsa_role.aws_iam_role.this[0]' || \
+          terraform import 'module.ebs_csi_irsa_role.aws_iam_role.this[0]' \
             boris-crm_demo-ebs-csi
 
           echo "📐 Planning..."
@@ -71,7 +71,4 @@ jobs:
         working-directory: pf_infra
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      _KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
