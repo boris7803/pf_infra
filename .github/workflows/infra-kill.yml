@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          repository: boris7803/pf_infra
+          token: ${{ secrets.PF_TOKEN }}
+          path: pf_infra
+
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
